@@ -38,7 +38,7 @@ class Renderer {
   }
 
   #isVisible(element) {
-    return element.style.display === 'block' ? true : false;
+    return element.style.display === 'block';
   }
 
   #displayStartMessage() {
