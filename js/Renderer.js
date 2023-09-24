@@ -24,7 +24,6 @@ class Renderer {
     this.#statsVertical = document.querySelector('.stats--vertical');
     this.#keyMap = document.querySelector('.hit-map');
     this.#keys = document.querySelectorAll('[data-letter]');
-
     this.#rendererLoop = undefined;
 
     this.#displayStartMessage();
