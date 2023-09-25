@@ -1,4 +1,5 @@
 import Calc from './Calc.js';
+import GameConfig from './Config.js';
 
 class Status {
   #activeLetters;
@@ -26,7 +27,13 @@ class Status {
     };
     this.#statsByLetter = {};
     this.#sortedStats = [];
-    this.#colorGroups = {};
+    // this.#colorGroups = {};
+    this.colorMap = {
+      top1: { color: GameConfig.COLOR_MAP.TOP1, keyCodes: [] },
+      top2: { color: GameConfig.COLOR_MAP.TOP2, keyCodes: [] },
+      top3: { color: GameConfig.COLOR_MAP.TOP3, keyCodes: [] },
+      top4: { color: GameConfig.COLOR_MAP.TOP4, keyCodes: [] },
+    };
   }
 
   isPresent(keyCode) {
@@ -57,7 +64,7 @@ class Status {
     };
     this.#statsByLetter = {};
     this.#sortedStats = [];
-    this.#colorGroups = {};
+    Object.entries(this.colorMap).forEach((group) => (group[1].keyCodes = []));
   }
 
   updateTimeLeft() {

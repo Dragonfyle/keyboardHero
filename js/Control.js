@@ -6,14 +6,11 @@ import GameStatus from './Status.js';
 import Letter from './letter.js';
 
 class Control extends EventTarget {
-  #letterIdCount;
-  #isRunning;
+  #letterIdCount = 0;
+  #isRunning = false;
   #coundownInterval;
   constructor() {
     super();
-    this.#coundownInterval = undefined;
-    this.#letterIdCount = 0;
-    this.#isRunning = false;
 
     window.addEventListener('keydown', (e) => {
       this.#gameStart(e);
@@ -85,8 +82,7 @@ class Control extends EventTarget {
     this.#isRunning = false;
     DifficultySlider.setActive(true, 100);
 
-    const dividedStats = Organizer.divideIntoColors(GameStatus.sortedStats);
-    GameStatus.dividedStatsUpdate(dividedStats);
+    Organizer.divideIntoColors(GameStatus.sortedStats);
 
     this.dispatchEvent(new CustomEvent('statsReady'));
   }

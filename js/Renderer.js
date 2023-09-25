@@ -128,24 +128,20 @@ class Renderer {
   }
 
   #renderHitMap() {
-    const COLOR_MAP = {
-      TOP1: '0CCE6B',
-      TOP2: '566E3D',
-      TOP3: '6C4B51',
-      TOP4: 'EF2D56',
-    };
+    const colors = GameStatus.colorMap;
 
-    for (let color in GameStatus.colorGroups) {
-      for (let letter of GameStatus.colorGroups[color]) {
-        this.#keys.forEach((key) => {
-          if (
-            key.dataset.letter === String.fromCharCode(letter).toLowerCase()
-          ) {
-            key.style.backgroundColor = `#${COLOR_MAP[color]}`;
-          }
-        });
-      }
-    }
+    // this.#keys.forEach(key =>  {
+    //   const {color} = Object.values(colors).find(({keyCodes}) => keyCodes.includes(key.dataset.keycode))
+    //   key.style.backgroundColor = color;
+    // })
+
+    this.#keys.forEach((key) =>
+      Object.values(colors).forEach(({ keyCodes, color }) => {
+        if (keyCodes.includes(key.dataset.keycode)) {
+          key.style.backgroundColor = color;
+        }
+      })
+    );
     this.#setDisplayProp(this.#keyMap, 'flex');
   }
 
@@ -156,4 +152,4 @@ class Renderer {
 }
 
 // eslint-disable-next-line no-unused-vars
-const ImageRenderer = new Renderer();
+new Renderer();

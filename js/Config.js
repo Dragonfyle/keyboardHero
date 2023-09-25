@@ -23,6 +23,13 @@ class Config {
         MULTIPLIER: 22,
       },
     };
+
+    this.COLOR_MAP = {
+      TOP1: '#0CCE6B',
+      TOP2: '#566E3D',
+      TOP3: '#6C4B51',
+      TOP4: '#EF2D56',
+    };
   }
   get fallStep() {
     return this.#speedParameters.fallStep;

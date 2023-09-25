@@ -10,12 +10,7 @@ export default class Organizer {
   }
 
   static divideIntoColors(sortedLetterStats) {
-    const dividedIntoColors = {
-      TOP1: [],
-      TOP2: [],
-      TOP3: [],
-      TOP4: [],
-    };
+    const colorMap = GameStatus.colorMap;
 
     for (let letter of sortedLetterStats) {
       let group;
@@ -24,20 +19,18 @@ export default class Organizer {
 
       (function decideColor() {
         if (accuracy >= 80) {
-          group = 'TOP1';
+          group = 'top1';
         } else if (accuracy >= 65 && accuracy < 80) {
-          group = 'TOP2';
+          group = 'top2';
         } else if (accuracy >= 50 && accuracy < 65) {
-          group = 'TOP3';
+          group = 'top3';
         } else {
-          group = 'TOP4';
+          group = 'top4';
         }
       })(letter);
 
-      dividedIntoColors[group].push(keyCode);
+      colorMap[group].keyCodes.push(keyCode);
     }
-
-    return dividedIntoColors;
   }
 
   static formatTime() {

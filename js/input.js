@@ -23,11 +23,7 @@ export default class Input extends EventTarget {
   }
 
   #isDown(lastPressedKeyCode) {
-    if (this.#findPressedKey(lastPressedKeyCode) !== -1) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.#findPressedKey(lastPressedKeyCode) !== -1;
   }
 
   #saveKeyDown(pressedKeyCode) {
