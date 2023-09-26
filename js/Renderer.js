@@ -1,5 +1,6 @@
 import Calc from './Calc.js';
-import Organizer from './Organizer.js';
+import { Organizer } from './Organizer.js';
+import { DataOrganizer } from './Organizer.js';
 import GameStatus from './Status.js';
 import GameControl from './control.js';
 
@@ -13,6 +14,8 @@ class Renderer {
   #keyMap;
   #keys;
   #rendererLoop;
+  #displayOptions;
+  #statNames;
   constructor() {
     this.#startMsgContainer = document.querySelector(
       '.game-board__start-message'
@@ -24,11 +27,39 @@ class Renderer {
     this.#statsVertical = document.querySelector('.stats--vertical');
     this.#keyMap = document.querySelector('.hit-map');
     this.#keys = document.querySelectorAll('[data-letter]');
-    this.#rendererLoop = undefined;
+
+    this.#displayOptions = {
+      BLOCK: 'block',
+      FLEX: 'flex',
+      NONE: 'none',
+    };
+
+    this.#statNames = {
+      HIT: 'hit',
+      MISS: 'miss',
+      ACCURACY: 'accuracy',
+    };
 
     this.#displayStartMessage();
-    GameControl.addEventListener('gameStart', () => this.#startRenderer());
+    this.#addTransparentDiv();
+    GameControl.addEventListener('gameStart', () => this.#init());
     GameControl.addEventListener('statsReady', () => this.#renderHitMap());
+  }
+
+  #addTransparentDiv() {
+    const div = document.createElement('div');
+    const styles = {
+      position: 'fixed',
+      left: 0,
+      right: 0,
+      height: '100%',
+      width: '100%',
+      userSelect: 'none',
+      zIndex: '9998',
+    };
+    Object.assign(div.style, styles);
+
+    document.body.insertBefore(div, document.body.firstChild);
   }
 
   #stopRenderer() {
@@ -46,7 +77,7 @@ class Renderer {
       return;
     }
     if (!GameStatus.activeLetters.length) {
-      this.#startMsgContainer.style.display = 'block';
+      this.#setDisplay(this.#startMsgContainer, this.#displayOptions.BLOCK);
     }
   }
 
@@ -54,7 +85,7 @@ class Renderer {
     if (!this.#isVisible(this.#startMsgContainer)) {
       return;
     }
-    this.#startMsgContainer.style.display = 'none';
+    this.#setDisplay(this.#startMsgContainer, this.#displayOptions.NONE);
   }
 
   #resetKeyColors() {
@@ -63,22 +94,27 @@ class Renderer {
     });
   }
 
-  #setDisplayProp(element, display) {
-    element.style.display = `${display}`;
+  #setDisplay(element, display) {
+    element.style.display = display;
   }
 
   #clearLetterStatsDisplay() {
     this.#statsVertical.textContent = '';
   }
 
-  #displayStat(statName, domElement) {
+  #displayStat(element, statName) {
     const formattedStat = Organizer.formatTotalStat(statName);
-    domElement.textContent = formattedStat;
+    element.textContent = formattedStat;
   }
 
-  #startRenderer() {
-    this.#setDisplayProp(this.#keyMap, 'none');
+  #resetData() {
     this.#resetKeyColors();
+    DataOrganizer.resetColorGroups();
+  }
+
+  #init() {
+    this.#setDisplay(this.#keyMap, this.#displayOptions.NONE);
+    this.#resetData();
     this.#removeStartMessage();
     this.#rendererLoop = window.requestAnimationFrame(
       this.#renderImage.bind(this)
@@ -97,9 +133,6 @@ class Renderer {
       this.#stopRenderer();
     }
   }
-  #createElement(element) {
-    return document.createElement(element);
-  }
 
   #renderActiveLetters() {
     GameStatus.activeLetters.forEach((letter) => {
@@ -112,15 +145,15 @@ class Renderer {
   }
 
   #renderTotalStats() {
-    this.#displayStat('hit', this.#hitDisplay);
-    this.#displayStat('miss', this.#miss_display);
-    this.#displayStat('accuracy', this.#accuracyDisplay);
+    this.#displayStat(this.#hitDisplay, this.#statNames.HIT);
+    this.#displayStat(this.#miss_display, this.#statNames.MISS);
+    this.#displayStat(this.#accuracyDisplay, this.#statNames.ACCURACY);
   }
 
   #renderLetterStats() {
     this.#clearLetterStatsDisplay();
     for (const keyCode of GameStatus.sortedStats) {
-      const newP = this.#createElement('p');
+      const newP = document.createElement('p');
       const letter = Calc.convertKeyCodeToLetter(keyCode);
       newP.textContent = Organizer.formatLetterStat(letter, keyCode);
       this.#statsVertical.appendChild(newP);
@@ -128,21 +161,16 @@ class Renderer {
   }
 
   #renderHitMap() {
-    const colors = GameStatus.colorMap;
+    const colorMap = DataOrganizer.colorMap;
 
-    // this.#keys.forEach(key =>  {
-    //   const {color} = Object.values(colors).find(({keyCodes}) => keyCodes.includes(key.dataset.keycode))
-    //   key.style.backgroundColor = color;
-    // })
+    this.#keys.forEach((key) => {
+      const colorGroup = Object.values(colorMap).find(({ keyCodes }) =>
+        keyCodes.includes(key.dataset.keycode)
+      );
+      key.style.backgroundColor = colorGroup?.color;
+    });
 
-    this.#keys.forEach((key) =>
-      Object.values(colors).forEach(({ keyCodes, color }) => {
-        if (keyCodes.includes(key.dataset.keycode)) {
-          key.style.backgroundColor = color;
-        }
-      })
-    );
-    this.#setDisplayProp(this.#keyMap, 'flex');
+    this.#setDisplay(this.#keyMap, this.#displayOptions.FLEX);
   }
 
   #renderStats() {
@@ -151,5 +179,4 @@ class Renderer {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
 new Renderer();

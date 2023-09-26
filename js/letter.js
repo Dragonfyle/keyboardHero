@@ -1,7 +1,7 @@
-import Organizer from './Organizer.js';
+import { Organizer } from './Organizer.js';
 import GameStatus from './Status.js';
 import GameConfig from './Config.js';
-import Input from './input.js';
+import Input from './Input.js';
 const UserInput = new Input();
 
 export default class Letter {
@@ -197,6 +197,7 @@ export default class Letter {
   #selfDectruct(letterId) {
     if (letterId === this.id) {
       GameStatus.removeFromActive(this.id);
+      // GameStatus.isExpected(this.keyCode) &&
       GameStatus.removeFromExpected(this.id);
       this.gameBoard.removeChild(this.div);
     }

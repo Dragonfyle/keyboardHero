@@ -24,15 +24,17 @@ class Slider {
     this.#isActive = true;
     this.#isDraggable = false;
 
+    this.#slider.style.zIndex = '9999';
     this.#initEventListeners();
   }
   #initEventListeners() {
-    this.#handle.addEventListener('mousedown', () => this.#PressMouseBtn());
+    this.#handle.addEventListener('mousedown', (e) => this.#PressMouseBtn(e));
     document.addEventListener('mouseup', () => this.#releaseMouseBtn());
     window.addEventListener('mousemove', (e) => this.#reactToDrag(e));
   }
 
-  #PressMouseBtn() {
+  #PressMouseBtn(e) {
+    e.preventDefault();
     if (this.#isActive) {
       this.#setDraggable(true);
     }

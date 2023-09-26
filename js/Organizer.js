@@ -1,6 +1,21 @@
 import GameStatus from './Status.js';
+import InitialValues from './InitialValues.js';
 
-export default class Organizer {
+class Organizer {
+  constructor() {
+    this.colorMap = {
+      top1: { color: InitialValues.COLOR_MAP.TOP1, keyCodes: [] },
+      top2: { color: InitialValues.COLOR_MAP.TOP2, keyCodes: [] },
+      top3: { color: InitialValues.COLOR_MAP.TOP3, keyCodes: [] },
+      top4: { color: InitialValues.COLOR_MAP.TOP4, keyCodes: [] },
+    };
+  }
+  resetColorGroups() {
+    Object.values(this.colorMap).forEach(
+      ({ keyCodes }) => (keyCodes.length = 0)
+    );
+  }
+
   static sortStatsByLetter() {
     const letterStats = Object.entries(GameStatus.statsByLetter);
     const sortedStats = letterStats.sort((a, b) => {
@@ -9,8 +24,8 @@ export default class Organizer {
     return sortedStats;
   }
 
-  static divideIntoColors(sortedLetterStats) {
-    const colorMap = GameStatus.colorMap;
+  divideIntoColorGroups(sortedLetterStats) {
+    const colorMap = this.colorMap;
 
     for (let letter of sortedLetterStats) {
       let group;
@@ -78,3 +93,7 @@ export default class Organizer {
     GameStatus.updateSortedStats(sortedStats);
   }
 }
+
+const DataOrganizer = new Organizer();
+
+export { DataOrganizer, Organizer };

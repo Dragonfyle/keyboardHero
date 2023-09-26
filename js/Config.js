@@ -1,42 +1,26 @@
 import Calc from './Calc.js';
 import DifficultySlider from './Slider.js';
+import InitialValues from './InitialValues.js';
 
 class Config {
-  #speedParameters;
-  #delayConfig;
-  constructor() {
-    this.#speedParameters = {
-      delaySpread: null,
-      minDelay: null,
-      fallStep: null,
-      delayFactor: null,
-      MULTIPLIER: 0.4,
-    };
-
-    this.#delayConfig = {
-      minDelay: {
-        MIN_VALUE: 150,
-        MULTIPLIER: 15,
-      },
-      delaySpread: {
-        MIN_VALUE: 250,
-        MULTIPLIER: 22,
-      },
-    };
-
-    this.COLOR_MAP = {
-      TOP1: '#0CCE6B',
-      TOP2: '#566E3D',
-      TOP3: '#6C4B51',
-      TOP4: '#EF2D56',
-    };
+  #InitialValues;
+  constructor(InitialValues) {
+    this.#InitialValues = InitialValues;
   }
+  get InitialValues() {
+    return this.#InitialValues;
+  }
+
   get fallStep() {
-    return this.#speedParameters.fallStep;
+    return this.#InitialValues.speedParameters.fallStep;
   }
 
   get speedParameters() {
-    return this.#speedParameters;
+    return this.#InitialValues.speedParameters;
+  }
+
+  get GAME_LENGTH() {
+    return this.#InitialValues.GAME_LENGTH;
   }
 
   #assignDelay(handlePosition, delayConfig, delayParameter) {
@@ -50,7 +34,7 @@ class Config {
       }
     }
 
-    this.#speedParameters[delayParameter] = generateValidDelay();
+    this.#InitialValues.speedParameters[delayParameter] = generateValidDelay();
   }
 
   #assignFallStep(handlePositionReversed, { MIN_VALUE, MAX_VALUE }) {
@@ -64,21 +48,29 @@ class Config {
       handlePositionReversed,
       offsetParameters
     );
-    this.#speedParameters.fallStep = newFallStep;
+    this.#InitialValues.speedParameters.fallStep = newFallStep;
   }
 
   #assignDelayFactor({ fallStep, MULTIPLIER }) {
-    this.#speedParameters.delayFactor = fallStep * MULTIPLIER;
+    this.#InitialValues.speedParameters.delayFactor = fallStep * MULTIPLIER;
   }
 
   difficultySet(handlePosition, handlePositionReversed) {
-    this.#assignDelay(handlePosition, this.#delayConfig, 'minDelay');
-    this.#assignDelay(handlePosition, this.#delayConfig, 'delaySpread');
+    this.#assignDelay(
+      handlePosition,
+      this.#InitialValues.delayConfig,
+      'minDelay'
+    );
+    this.#assignDelay(
+      handlePosition,
+      this.#InitialValues.delayConfig,
+      'delaySpread'
+    );
     this.#assignFallStep(handlePositionReversed, DifficultySlider.sliderRange);
-    this.#assignDelayFactor(this.#speedParameters);
+    this.#assignDelayFactor(this.#InitialValues.speedParameters);
   }
 }
 
-const GameConfig = new Config();
+const GameConfig = new Config(InitialValues);
 
 export default GameConfig;

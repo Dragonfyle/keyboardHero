@@ -19,7 +19,7 @@ export default class Calc {
     const newDelay =
       (Math.floor(Math.random() * delaySpread) + minDelay) / delayFactor;
 
-    return newDelay <= MAX_DELAY ? newDelay : MAX_DELAY;
+    return Math.min(newDelay, MAX_DELAY);
   }
 
   static calculateAccuracy({ hit, miss }) {
@@ -28,9 +28,9 @@ export default class Calc {
 
   static calculateTotalStats(statsByLetter) {
     const statsTotal = {
-      hit: 0,
-      miss: 0,
-      accuracy: 0,
+      hit: null,
+      miss: null,
+      accuracy: null,
     };
 
     for (let letter in statsByLetter) {

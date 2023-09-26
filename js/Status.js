@@ -1,3 +1,4 @@
+import InitialValues from './InitialValues.js';
 import Calc from './Calc.js';
 import GameConfig from './Config.js';
 
@@ -10,8 +11,7 @@ class Status {
   #statsTotal;
   #statsByLetter;
   #sortedStats;
-  #colorGroups;
-  constructor(gameLength = 60) {
+  constructor(gameLength = GameConfig.GAME_LENGTH) {
     this.gameBoard = document.querySelector('.game-board');
     this.#gameLength = gameLength;
     this.#timeLeft = this.#gameLength;
@@ -21,19 +21,12 @@ class Status {
     this.#expectedLetters = [];
 
     this.#statsTotal = {
-      hit: 0,
-      miss: 0,
-      accuracy: 0,
+      hit: InitialValues.totalStats.HIT,
+      miss: InitialValues.totalStats.MISS,
+      accuracy: InitialValues.totalStats.ACCURACY,
     };
     this.#statsByLetter = {};
     this.#sortedStats = [];
-    // this.#colorGroups = {};
-    this.colorMap = {
-      top1: { color: GameConfig.COLOR_MAP.TOP1, keyCodes: [] },
-      top2: { color: GameConfig.COLOR_MAP.TOP2, keyCodes: [] },
-      top3: { color: GameConfig.COLOR_MAP.TOP3, keyCodes: [] },
-      top4: { color: GameConfig.COLOR_MAP.TOP4, keyCodes: [] },
-    };
   }
 
   isPresent(keyCode) {
@@ -41,14 +34,14 @@ class Status {
   }
 
   isValidEntry(statName) {
-    return statName === 'hit' || statName === 'miss' ? true : false;
+    return statName === 'hit' || statName === 'miss';
   }
 
   createStatsEntry(keyCode) {
     this.#statsByLetter[keyCode] = {
-      hit: 0,
-      miss: 0,
-      accuracy: 0,
+      hit: InitialValues.statsByLetter.HIT,
+      miss: InitialValues.statsByLetter.MISS,
+      accuracy: InitialValues.statsByLetter.ACCURACY,
     };
   }
 
@@ -58,13 +51,12 @@ class Status {
 
   resetAllStats() {
     this.#statsTotal = {
-      hit: 0,
-      miss: 0,
-      accuracy: 0,
+      hit: InitialValues.totalStats.HIT,
+      miss: InitialValues.totalStats.MISS,
+      accuracy: InitialValues.totalStats.ACCURACY,
     };
     this.#statsByLetter = {};
     this.#sortedStats = [];
-    Object.entries(this.colorMap).forEach((group) => (group[1].keyCodes = []));
   }
 
   updateTimeLeft() {
@@ -81,6 +73,7 @@ class Status {
     const letter = this.#expectedLetters.find(
       (letter) => letter.keyCode === keyCode
     );
+    console.log(letter?.id);
     return letter?.id;
   }
 
@@ -112,16 +105,12 @@ class Status {
 
     this.updateLetterHitMiss(statName, keyCode);
 
-    const letterInStatsObject = this.statsByLetter[keyCode];
-    const newAccuracy = Calc.calculateAccuracy(letterInStatsObject);
+    const letterObject = this.statsByLetter[keyCode];
+    const newAccuracy = Calc.calculateAccuracy(letterObject);
     this.updateLetterAccuracy(newAccuracy, keyCode);
 
     const newTotalStats = Calc.calculateTotalStats(this.statsByLetter);
     this.statsTotalUpdate(newTotalStats);
-  }
-
-  dividedStatsUpdate(ColorGroups) {
-    this.#colorGroups = ColorGroups;
   }
 
   get timeLeft() {
@@ -144,19 +133,21 @@ class Status {
     return this.#sortedStats;
   }
 
-  get colorGroups() {
-    return this.#colorGroups;
-  }
-
   set addToActive(letter) {
     this.#activeLetters.push(letter);
   }
 
   removeFromActive(id) {
-    this.#activeLetters.splice(
-      this.#activeLetters.findIndex((letter) => letter.id === id),
-      1
+    const letterIndex = this.#activeLetters.findIndex(
+      (letter) => letter.id === id
     );
+    if (letterIndex !== -1) {
+      this.#activeLetters.splice(letterIndex, 1);
+    }
+  }
+
+  get expectedLetters() {
+    return this.#expectedLetters;
   }
 
   addToExpected(letter) {
@@ -164,10 +155,12 @@ class Status {
   }
 
   removeFromExpected(id) {
-    this.#expectedLetters.splice(
-      this.#expectedLetters.findIndex((letter) => letter.id === id),
-      1
+    const letterIndex = this.#expectedLetters.findIndex(
+      (letter) => letter.id === id
     );
+    if (letterIndex !== -1) {
+      this.#expectedLetters.splice(letterIndex, 1);
+    }
   }
 }
 

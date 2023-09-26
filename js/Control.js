@@ -1,5 +1,5 @@
 import Calc from './Calc.js';
-import Organizer from './Organizer.js';
+import { DataOrganizer } from './Organizer.js';
 import DifficultySlider from './Slider.js';
 import GameConfig from './Config.js';
 import GameStatus from './Status.js';
@@ -82,7 +82,7 @@ class Control extends EventTarget {
     this.#isRunning = false;
     DifficultySlider.setActive(true, 100);
 
-    Organizer.divideIntoColors(GameStatus.sortedStats);
+    DataOrganizer.divideIntoColorGroups(GameStatus.sortedStats);
 
     this.dispatchEvent(new CustomEvent('statsReady'));
   }
