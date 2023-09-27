@@ -1,8 +1,6 @@
 import { Organizer } from './Organizer.js';
 import GameStatus from './Status.js';
 import GameConfig from './Config.js';
-import Input from './Input.js';
-const UserInput = new Input();
 
 export default class Letter {
   #alphabetLetter;
@@ -31,9 +29,9 @@ export default class Letter {
       bottom: 'bottom',
     };
 
-    UserInput.addEventListener('letterHit', (e) =>
-      this.#selfDectruct(e.detail)
-    );
+    window.addEventListener('letterHit', (e) => {
+      this.#selfDectruct(e.detail);
+    });
 
     this.#initializeRandomLetter();
     this.#createAndAddDomElements();
@@ -129,7 +127,7 @@ export default class Letter {
       GameStatus.createStatsEntry(this.#keyCode);
     }
 
-    GameStatus.updateAllStats('miss', this.#keyCode);
+    GameStatus.incorporateNewEntry('miss', this.#keyCode);
     Organizer.sortStats();
   }
 
@@ -196,9 +194,10 @@ export default class Letter {
 
   #selfDectruct(letterId) {
     if (letterId === this.id) {
+      if (GameStatus.isExpected(this.keyCode)) {
+        GameStatus.removeFromExpected(this.id);
+      }
       GameStatus.removeFromActive(this.id);
-      // GameStatus.isExpected(this.keyCode) &&
-      GameStatus.removeFromExpected(this.id);
       this.gameBoard.removeChild(this.div);
     }
   }

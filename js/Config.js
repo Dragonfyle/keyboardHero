@@ -7,8 +7,9 @@ class Config {
   constructor(InitialValues) {
     this.#InitialValues = InitialValues;
   }
-  get InitialValues() {
-    return this.#InitialValues;
+
+  get statNames() {
+    return this.#InitialValues.statNames;
   }
 
   get fallStep() {

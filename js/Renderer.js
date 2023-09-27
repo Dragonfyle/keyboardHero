@@ -42,8 +42,8 @@ class Renderer {
 
     this.#displayStartMessage();
     this.#addTransparentDiv();
-    GameControl.addEventListener('gameStart', () => this.#init());
-    GameControl.addEventListener('statsReady', () => this.#renderHitMap());
+    window.addEventListener('gameStart', () => this.#init());
+    window.addEventListener('statsReady', () => this.#renderHitMap());
   }
 
   #addTransparentDiv() {

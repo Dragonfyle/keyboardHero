@@ -73,7 +73,6 @@ class Status {
     const letter = this.#expectedLetters.find(
       (letter) => letter.keyCode === keyCode
     );
-    console.log(letter?.id);
     return letter?.id;
   }
 
@@ -98,7 +97,7 @@ class Status {
     this.#statsByLetter[keyCode].accuracy = newAccuracy;
   }
 
-  updateAllStats(statName, keyCode) {
+  incorporateNewEntry(statName, keyCode) {
     if (!this.isPresent(keyCode)) {
       this.createStatsEntry(keyCode);
     }

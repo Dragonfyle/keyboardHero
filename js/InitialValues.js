@@ -2,6 +2,12 @@ class InitValues {
   constructor() {
     this.GAME_LENGTH = 20;
 
+    this.statNames = {
+      HIT: 'hit',
+      MISS: 'miss',
+      ACCURACY: 'accuracy',
+    };
+
     this.totalStats = {
       HIT: 0,
       MISS: 0,

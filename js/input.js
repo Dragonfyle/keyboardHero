@@ -1,10 +1,11 @@
+import EventEmitter from './Emitter.js';
+import GameConfig from './Config.js';
 import { Organizer } from './Organizer.js';
 import GameStatus from './Status.js';
 
-export default class Input extends EventTarget {
+export default class Input {
   #areDown;
   constructor() {
-    super();
     this.#initEvents();
   }
 
@@ -18,17 +19,15 @@ export default class Input extends EventTarget {
     });
   }
 
-  #findPressedKey(pressedKeyCode) {
+  #determineIndex(pressedKeyCode) {
     return this.#areDown.findIndex((keyCode) => keyCode === pressedKeyCode);
   }
 
   #isDown(pressedKeyCode) {
-    console.log(this.#areDown.includes(pressedKeyCode));
     return this.#areDown.includes(pressedKeyCode);
   }
 
   #saveKeyDown(pressedKeyCode) {
-    console.log(this.#areDown);
     this.#areDown.push(pressedKeyCode);
   }
 
@@ -46,15 +45,18 @@ export default class Input extends EventTarget {
 
     if (GameStatus.isExpected(keyCode)) {
       const letterId = GameStatus.getExpectedId(keyCode);
-      this.dispatchEvent(new CustomEvent('letterHit', { detail: letterId }));
+      EventEmitter.letterHit(letterId);
 
-      GameStatus.updateAllStats('hit', keyCode);
+      GameStatus.incorporateNewEntry(GameConfig.statNames.HIT, keyCode);
       Organizer.sortStats();
     }
   }
 
   #keyUpEvent(e) {
     const keyCode = this.#readKeyCode(e);
-    this.#areDown.splice(this.#findPressedKey(keyCode), 1);
+    this.#areDown.splice(this.#determineIndex(keyCode), 1);
   }
 }
+
+// eslint-disable-next-line no-unused-vars
+const UserInput = new Input();

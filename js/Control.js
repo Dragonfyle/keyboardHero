@@ -1,3 +1,6 @@
+import EventEmitter from './Emitter.js';
+// eslint-disable-next-line no-unused-vars
+import Input from './Input.js';
 import Calc from './Calc.js';
 import { DataOrganizer } from './Organizer.js';
 import DifficultySlider from './Slider.js';
@@ -5,17 +8,15 @@ import GameConfig from './Config.js';
 import GameStatus from './Status.js';
 import Letter from './letter.js';
 
-class Control extends EventTarget {
+class Control {
   #letterIdCount = 0;
   #isRunning = false;
   #coundownInterval;
   constructor() {
-    super();
-
     window.addEventListener('keydown', (e) => {
       this.#gameStart(e);
     });
-    this.addEventListener('gameEnd', () => this.wrapUp());
+    window.addEventListener('gameEnd', () => this.wrapUp());
   }
 
   get isRunning() {
@@ -62,7 +63,7 @@ class Control extends EventTarget {
   }
 
   #countdownAndReset() {
-    this.dispatchEvent(new CustomEvent('gameStart'));
+    EventEmitter.gameStart();
 
     this.#coundownInterval = setInterval(() => {
       if (document.hasFocus()) {
@@ -71,7 +72,7 @@ class Control extends EventTarget {
       if (GameStatus.timeLeft <= 0) {
         clearInterval(this.#coundownInterval);
 
-        this.dispatchEvent(new CustomEvent('gameEnd'));
+        EventEmitter.gameEnd();
       }
     }, 1000);
   }
@@ -84,7 +85,7 @@ class Control extends EventTarget {
 
     DataOrganizer.divideIntoColorGroups(GameStatus.sortedStats);
 
-    this.dispatchEvent(new CustomEvent('statsReady'));
+    EventEmitter.statsReady();
   }
 
   #letterGenerator() {
