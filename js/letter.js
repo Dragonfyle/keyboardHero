@@ -1,4 +1,5 @@
 import { Organizer } from './Organizer.js';
+import VisualEffects from './VisualEffects.js';
 import GameStatus from './Status.js';
 import GameConfig from './Config.js';
 
@@ -30,7 +31,7 @@ export default class Letter {
     };
 
     window.addEventListener('letterHit', (e) => {
-      this.#selfDectruct(e.detail);
+      this.#processHit(e.detail);
     });
 
     this.#initializeRandomLetter();
@@ -192,13 +193,18 @@ export default class Letter {
     }, delay);
   }
 
-  #selfDectruct(letterId) {
+  #processHit(letterId) {
     if (letterId === this.id) {
-      if (GameStatus.isExpected(this.keyCode)) {
-        GameStatus.removeFromExpected(this.id);
-      }
-      GameStatus.removeFromActive(this.id);
-      this.gameBoard.removeChild(this.div);
+      VisualEffects.hitFeedback(this.div);
+      // this.#selfDectruct(letterId);
     }
+  }
+
+  #selfDectruct() {
+    if (GameStatus.isExpected(this.keyCode)) {
+      GameStatus.removeFromExpected(this.id);
+    }
+    GameStatus.removeFromActive(this.id);
+    this.gameBoard.removeChild(this.div);
   }
 }

@@ -7,6 +7,9 @@ class Config {
   constructor(InitialValues) {
     this.#InitialValues = InitialValues;
   }
+  get KEY_COLOR() {
+    return this.#InitialValues.KEY_COLOR;
+  }
 
   get statNames() {
     return this.#InitialValues.statNames;

@@ -1,6 +1,6 @@
-import EventEmitter from './Emitter.js';
+import Emitter from './Emitter.js';
 // eslint-disable-next-line no-unused-vars
-import Input from './Input.js';
+import UserInput from './Input.js';
 import Calc from './Calc.js';
 import { DataOrganizer } from './Organizer.js';
 import DifficultySlider from './Slider.js';
@@ -27,7 +27,7 @@ class Control {
     if (this.#isRunning || e.keyCode !== 32) {
       return;
     }
-    DifficultySlider.setActive(false, 40);
+    DifficultySlider.reveal(false, 40);
     this.#isRunning = true;
     GameConfig.difficultySet(
       DifficultySlider.handlePosition,
@@ -63,7 +63,7 @@ class Control {
   }
 
   #countdownAndReset() {
-    EventEmitter.gameStart();
+    Emitter.gameStart();
 
     this.#coundownInterval = setInterval(() => {
       if (document.hasFocus()) {
@@ -72,7 +72,7 @@ class Control {
       if (GameStatus.timeLeft <= 0) {
         clearInterval(this.#coundownInterval);
 
-        EventEmitter.gameEnd();
+        Emitter.gameEnd();
       }
     }, 1000);
   }
@@ -81,11 +81,10 @@ class Control {
     await this.#emptyActiveLetters();
 
     this.#isRunning = false;
-    DifficultySlider.setActive(true, 100);
 
+    DifficultySlider.reveal(true, 100);
     DataOrganizer.divideIntoColorGroups(GameStatus.sortedStats);
-
-    EventEmitter.statsReady();
+    Emitter.statsReady();
   }
 
   #letterGenerator() {
