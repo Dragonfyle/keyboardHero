@@ -1,16 +1,27 @@
-export default class VisualEffects {
-  static hitFeedback(domLetter) {
-    // const div = document.createElement('div');
-    // domLetter.style.position = 'absolute';
-    // domLetter.style.zIndex = '0';
-    // domLetter.style.width = '1%';
-    // domLetter.style.aspectRatio = '1';
-    // domLetter.style.backgroundColor = 'rgb(200, 100, 150, 50%';
-    // domLetter.style.left = '-24%';
-    // domLetter.style.top = '33%';
-    // domLetter.style.borderRadius = '50%';
-    domLetter.style.color = 'red';
+class VisualEffects {
+  #flashLength;
+  constructor() {
+    this.#flashLength = 80;
+  }
+  get flashLength() {
+    return this.#flashLength;
+  }
 
-    // domLetter.append(div);
+  hitFeedback(domLetter) {
+    domLetter.style.backgroundColor = 'blue';
+    setTimeout(() => {
+      domLetter.style.backgroundColor = 'transparent';
+    }, this.#flashLength);
+  }
+
+  missFeedback(boardGameBorder) {
+    boardGameBorder.style.borderBottom = '2px solid red';
+    setTimeout(() => {
+      boardGameBorder.style.borderBottom = 'none';
+    }, this.#flashLength);
   }
 }
+
+const vfx = new VisualEffects();
+
+export default vfx;

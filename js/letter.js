@@ -1,9 +1,10 @@
 import { Organizer } from './Organizer.js';
-import VisualEffects from './VisualEffects.js';
+import vfx from './VisualEffects.js';
 import GameStatus from './Status.js';
 import GameConfig from './Config.js';
 
 export default class Letter {
+  #gameBoard;
   #alphabetLetter;
   #keyCode;
   letterCurrentPosition;
@@ -20,7 +21,7 @@ export default class Letter {
     this.letterCurrentPosition;
     this.#TRACKING_INTERVAL = 20;
 
-    this.gameBoard = document.querySelector('.game-board');
+    this.#gameBoard = document.querySelector('.game-board');
     this.#actionThreshold = document.querySelector(
       '.game-board__action-threshold'
     );
@@ -107,12 +108,15 @@ export default class Letter {
 
   #createAndAddDomElements() {
     const div = this.#createElement('div');
+    const p = document.createElement('p');
     this.#assignIdToElement(div);
     this.#assignClass(div);
+    p.classList.add('letter__text');
     this.#setInitialOffset(this.#INITIAL_OFFSET);
     const text = this.#createTextNode(this.#alphabetLetter);
-    this.#appendChild(div, text);
-    this.#appendChild(this.gameBoard, div);
+    this.#appendChild(p, text);
+    this.#appendChild(div, p);
+    this.#appendChild(this.#gameBoard, div);
 
     this.div = div;
   }
@@ -122,6 +126,7 @@ export default class Letter {
   }
 
   #letterMissed() {
+    vfx.missFeedback(this.#gameBoard);
     GameStatus.removeFromExpected(this.id);
 
     if (!GameStatus.isPresent(this.#keyCode)) {
@@ -179,7 +184,7 @@ export default class Letter {
       this.#borders,
       true
     );
-    await this.#reachThreshold(this.div, this.gameBoard, this.#borders, false);
+    await this.#reachThreshold(this.div, this.#gameBoard, this.#borders, true);
   }
 
   #letterPositionUpdate(fallStep, delay) {
@@ -195,8 +200,10 @@ export default class Letter {
 
   #processHit(letterId) {
     if (letterId === this.id) {
-      VisualEffects.hitFeedback(this.div);
-      // this.#selfDectruct(letterId);
+      vfx.hitFeedback(this.div);
+      setTimeout(() => {
+        this.#selfDectruct(letterId);
+      }, vfx.flashLength);
     }
   }
 
@@ -205,6 +212,6 @@ export default class Letter {
       GameStatus.removeFromExpected(this.id);
     }
     GameStatus.removeFromActive(this.id);
-    this.gameBoard.removeChild(this.div);
+    this.#gameBoard.removeChild(this.div);
   }
 }

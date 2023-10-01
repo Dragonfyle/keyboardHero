@@ -137,7 +137,7 @@ class Renderer {
 
   #renderActiveLetters() {
     GameStatus.activeLetters.forEach((letter) => {
-      letter.div.style.transform = `translateY(${letter.letterCurrentPosition}%)`;
+      letter.div.style.transform = `translateY(${letter.letterCurrentPosition}px)`;
     });
   }
 

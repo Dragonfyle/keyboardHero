@@ -41,7 +41,7 @@ class Config {
     this.#InitialValues.speedParameters[delayParameter] = generateValidDelay();
   }
 
-  #assignFallStep(handlePositionReversed, { MIN_VALUE, MAX_VALUE }) {
+  #assignFallStep(draggablePosReversed, { MIN_VALUE, MAX_VALUE }) {
     const offsetParameters = {
       sliderMinOffset: MIN_VALUE,
       sliderMaxOffset: MAX_VALUE,
@@ -49,7 +49,7 @@ class Config {
       TARGET_MAX_OFFSET: 6,
     };
     const newFallStep = Calc.rescaletOffsetRange(
-      handlePositionReversed,
+      draggablePosReversed,
       offsetParameters
     );
     this.#InitialValues.speedParameters.fallStep = newFallStep;
@@ -59,7 +59,7 @@ class Config {
     this.#InitialValues.speedParameters.delayFactor = fallStep * MULTIPLIER;
   }
 
-  difficultySet(handlePosition, handlePositionReversed) {
+  difficultySet(handlePosition, draggablePosReversed) {
     this.#assignDelay(
       handlePosition,
       this.#InitialValues.delayConfig,
@@ -70,7 +70,7 @@ class Config {
       this.#InitialValues.delayConfig,
       'delaySpread'
     );
-    this.#assignFallStep(handlePositionReversed, DifficultySlider.sliderRange);
+    this.#assignFallStep(draggablePosReversed, DifficultySlider.sliderRange);
     this.#assignDelayFactor(this.#InitialValues.speedParameters);
   }
 }
