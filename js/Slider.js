@@ -24,13 +24,17 @@ class Slider {
     this.#isActive = true;
     this.#isDraggable = false;
 
-    this.#slider.style.zIndex = '9999';
+    this.#initStyles()
     this.#initEventListeners();
   }
   #initEventListeners() {
     this.#handle.addEventListener('mousedown', (e) => this.#PressMouseBtn(e));
     document.addEventListener('mouseup', () => this.#releaseMouseBtn());
     window.addEventListener('mousemove', (e) => this.#reactToDrag(e));
+  }
+
+  #initStyles() {
+    this.#slider.style.zIndex = '9999';
   }
 
   #PressMouseBtn(e) {
@@ -48,7 +52,7 @@ class Slider {
     this.#isDraggable = boolean;
   }
 
-  setActive(boolean, opacity) {
+  reveal(boolean, opacity) {
     this.#isActive = boolean;
     this.#setOpacity(opacity);
   }

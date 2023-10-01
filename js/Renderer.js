@@ -2,7 +2,8 @@ import Calc from './Calc.js';
 import { Organizer } from './Organizer.js';
 import { DataOrganizer } from './Organizer.js';
 import GameStatus from './Status.js';
-import GameControl from './control.js';
+import GameControl from './Control.js';
+import GameConfig from './Config.js';
 
 class Renderer {
   #startMsgContainer;
@@ -90,7 +91,7 @@ class Renderer {
 
   #resetKeyColors() {
     this.#keys.forEach((key) => {
-      key.style.backgroundColor = 'rgba(180, 180, 180)';
+      key.style.backgroundColor = GameConfig.KEY_COLOR;
     });
   }
 
@@ -136,7 +137,7 @@ class Renderer {
 
   #renderActiveLetters() {
     GameStatus.activeLetters.forEach((letter) => {
-      letter.div.style.transform = `translateY(${letter.letterCurrentPosition}%)`;
+      letter.div.style.transform = `translateY(${letter.letterCurrentPosition}px)`;
     });
   }
 

@@ -4,11 +4,12 @@ export default class Calc {
   }
 
   static rescaletOffsetRange(
-    number,
+    draggablePosReversed,
     { sliderMinOffset, sliderMaxOffset, TARGET_MIN_OFFSET, TARGET_MAX_OFFSET }
   ) {
     const proportion =
-      (number - sliderMinOffset) / (sliderMaxOffset - sliderMinOffset);
+      (draggablePosReversed - sliderMinOffset) /
+      (sliderMaxOffset - sliderMinOffset);
     const scaledNumber =
       TARGET_MIN_OFFSET + proportion * (TARGET_MAX_OFFSET - TARGET_MIN_OFFSET);
     return scaledNumber;

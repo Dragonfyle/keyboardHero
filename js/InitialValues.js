@@ -39,6 +39,8 @@ class InitValues {
       },
     };
 
+    this.KEY_COLOR = 'rgba(180, 180, 180)';
+
     this.COLOR_MAP = {
       TOP1: '#0CCE6B',
       TOP2: '#566E3D',

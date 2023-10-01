@@ -1,9 +1,9 @@
-import EventEmitter from './Emitter.js';
+import Emitter from './Emitter.js';
 import GameConfig from './Config.js';
 import { Organizer } from './Organizer.js';
 import GameStatus from './Status.js';
 
-export default class Input {
+class Input {
   #areDown;
   constructor() {
     this.#initEvents();
@@ -45,7 +45,7 @@ export default class Input {
 
     if (GameStatus.isExpected(keyCode)) {
       const letterId = GameStatus.getExpectedId(keyCode);
-      EventEmitter.letterHit(letterId);
+      Emitter.letterHit(letterId);
 
       GameStatus.incorporateNewEntry(GameConfig.statNames.HIT, keyCode);
       Organizer.sortStats();
@@ -58,5 +58,6 @@ export default class Input {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
 const UserInput = new Input();
+
+export default UserInput;

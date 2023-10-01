@@ -1,5 +1,5 @@
-class Emitter {
-  letterHit(letterId) {
+export default class Emitter {
+  static letterHit(letterId) {
     dispatchEvent(
       new CustomEvent('letterHit', {
         detail: letterId,
@@ -7,19 +7,19 @@ class Emitter {
     );
   }
 
-  gameStart() {
+  static gameStart() {
     dispatchEvent(new Event('gameStart'));
   }
 
-  gameEnd() {
+  static gameEnd() {
     dispatchEvent(new Event('gameEnd'));
   }
 
-  statsReady() {
+  static statsReady() {
     dispatchEvent(new CustomEvent('statsReady'));
   }
 }
 
-const EventEmitter = new Emitter();
+// const EventEmitter = new Emitter();
 
-export default EventEmitter;
+// export default EventEmitter;
