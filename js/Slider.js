@@ -1,13 +1,16 @@
 class Slider {
   #slider;
-  #handle;
+  #draggable;
   #isActive;
   #isDraggable;
   #sliderRange;
   #sliderDimensions;
+  #draggableOffsetTop;
+  #KEY_STEP;
+  #DRAGGABLE_INIT_POS;
   constructor() {
     this.#slider = document.querySelector('.difficulty-slider');
-    this.#handle = document.querySelector('.difficulty-slider__handle');
+    this.#draggable = document.querySelector('.difficulty-slider__draggable');
 
     this.#sliderDimensions = {
       height: this.#slider.offsetHeight,
@@ -23,18 +26,30 @@ class Slider {
 
     this.#isActive = true;
     this.#isDraggable = false;
+    this.#draggableOffsetTop = null;
+    this.#KEY_STEP = 5;
+    this.#DRAGGABLE_INIT_POS = 300;
 
-    this.#initStyles()
+    this.#initStyles();
     this.#initEventListeners();
   }
   #initEventListeners() {
-    this.#handle.addEventListener('mousedown', (e) => this.#PressMouseBtn(e));
-    document.addEventListener('mouseup', () => this.#releaseMouseBtn());
+    this.#draggable.addEventListener('mousedown', (e) =>
+      this.#PressMouseBtn(e)
+    );
+    window.addEventListener('mouseup', () => this.#releaseMouseBtn());
     window.addEventListener('mousemove', (e) => this.#reactToDrag(e));
+    window.addEventListener('keydown', (e) => this.#reactToKeys(e));
   }
 
   #initStyles() {
     this.#slider.style.zIndex = '9999';
+    this.#setInitialPosition();
+  }
+
+  #setInitialPosition() {
+    this.#draggable.style.top = `${this.#DRAGGABLE_INIT_POS}px`;
+    this.#draggableOffsetTop = this.#DRAGGABLE_INIT_POS;
   }
 
   #PressMouseBtn(e) {
@@ -59,7 +74,7 @@ class Slider {
 
   #setOpacity(opacity) {
     this.#slider.style.opacity = `${opacity}%`;
-    this.#handle.style.opacity = `${opacity}%`;
+    this.#draggable.style.opacity = `${opacity}%`;
   }
 
   #getOffset(clientY, { offsetTop, TOP_LIMIT, bottomLimit }) {
@@ -75,32 +90,51 @@ class Slider {
     }
   }
 
-  #moveHandle(offset) {
-    this.#handle.style.top = `${offset}px`;
+  #moveDraggable(offset) {
+    this.#draggable.style.top = `${offset}px`;
+    this.#draggableOffsetTop = offset;
   }
 
   #reactToDrag(e) {
     if (this.#isDraggable) {
       const offset = this.#getOffset(e.clientY, this.#sliderDimensions);
-      this.#moveHandle(offset);
+      this.#moveDraggable(offset);
     }
   }
 
-  #calculateHandlePosition({ height }) {
-    const offsetPercent = Math.round((this.#handle.offsetTop / height) * 100);
+  #reactToKeys(e) {
+    if (this.#isActive) {
+      if (e.keyCode === 40) {
+        this.#draggable.style.top = `${
+          this.#draggableOffsetTop + this.#KEY_STEP
+        }px`;
+        this.#draggableOffsetTop = this.#draggableOffsetTop + this.#KEY_STEP;
+      } else if (e.keyCode === 38) {
+        this.#draggable.style.top = `${
+          this.#draggableOffsetTop - this.#KEY_STEP
+        }px`;
+        this.#draggableOffsetTop = this.#draggableOffsetTop - this.#KEY_STEP;
+      }
+    }
+  }
+
+  #calculateDraggablePos({ height }) {
+    const offsetPercent = Math.round(
+      (this.#draggable.offsetTop / height) * 100
+    );
     return offsetPercent;
   }
 
-  #reversePosition(handlePosition, { MIN_VALUE, MAX_VALUE }) {
-    return MAX_VALUE - handlePosition + MIN_VALUE;
+  #reversePosition(draggablePosition, { MIN_VALUE, MAX_VALUE }) {
+    return MAX_VALUE - draggablePosition + MIN_VALUE;
   }
 
-  get handlePosition() {
-    return this.#calculateHandlePosition(this.#sliderDimensions);
+  get draggablePos() {
+    return this.#calculateDraggablePos(this.#sliderDimensions);
   }
 
-  get handlePositionReversed() {
-    return this.#reversePosition(this.handlePosition, this.#sliderRange);
+  get draggablePosReversed() {
+    return this.#reversePosition(this.draggablePos, this.#sliderRange);
   }
 
   get sliderRange() {

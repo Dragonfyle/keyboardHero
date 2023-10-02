@@ -27,12 +27,12 @@ class Config {
     return this.#InitialValues.GAME_LENGTH;
   }
 
-  #assignDelay(handlePosition, delayConfig, delayParameter) {
+  #assignDelay(draggablePosition, delayConfig, delayParameter) {
     const parameter = delayConfig[delayParameter];
 
     function generateValidDelay() {
-      if (handlePosition * parameter.MULTIPLIER > parameter.MIN_VALUE) {
-        return handlePosition * parameter.MULTIPLIER;
+      if (draggablePosition * parameter.MULTIPLIER > parameter.MIN_VALUE) {
+        return draggablePosition * parameter.MULTIPLIER;
       } else {
         return parameter.MIN_VALUE;
       }
@@ -59,14 +59,14 @@ class Config {
     this.#InitialValues.speedParameters.delayFactor = fallStep * MULTIPLIER;
   }
 
-  difficultySet(handlePosition, draggablePosReversed) {
+  difficultySet(draggablePosition, draggablePosReversed) {
     this.#assignDelay(
-      handlePosition,
+      draggablePosition,
       this.#InitialValues.delayConfig,
       'minDelay'
     );
     this.#assignDelay(
-      handlePosition,
+      draggablePosition,
       this.#InitialValues.delayConfig,
       'delaySpread'
     );

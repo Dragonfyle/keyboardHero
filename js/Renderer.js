@@ -1,9 +1,9 @@
 import Calc from './Calc.js';
+import GameConfig from './Config.js';
 import { Organizer } from './Organizer.js';
 import { DataOrganizer } from './Organizer.js';
 import GameStatus from './Status.js';
 import GameControl from './Control.js';
-import GameConfig from './Config.js';
 
 class Renderer {
   #startMsgContainer;

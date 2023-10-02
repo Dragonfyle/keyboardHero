@@ -1,24 +1,36 @@
 class VisualEffects {
-  #flashLength;
+  #flashLengths;
+  #colors;
+  #missLineWidth;
   constructor() {
-    this.#flashLength = 80;
+    this.#flashLengths = {
+      HIT: 200,
+      MISS: 50,
+    };
+    this.#colors = {
+      HIT: '#DECDF5',
+      MISS: '#E5446D',
+    };
+    this.#missLineWidth = '4px';
   }
-  get flashLength() {
-    return this.#flashLength;
+  get flashLengths() {
+    return this.#flashLengths;
   }
 
   hitFeedback(domLetter) {
-    domLetter.style.backgroundColor = 'blue';
+    domLetter.style.backgroundColor = this.#colors.HIT;
     setTimeout(() => {
       domLetter.style.backgroundColor = 'transparent';
-    }, this.#flashLength);
+    }, this.#flashLengths.HIT);
   }
 
   missFeedback(boardGameBorder) {
-    boardGameBorder.style.borderBottom = '2px solid red';
+    boardGameBorder.style.borderBottom = `${this.#missLineWidth} solid ${
+      this.#colors.MISS
+    }`;
     setTimeout(() => {
       boardGameBorder.style.borderBottom = 'none';
-    }, this.#flashLength);
+    }, this.#flashLengths.MISS);
   }
 }
 

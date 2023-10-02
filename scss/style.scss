@@ -14,7 +14,7 @@ html {
     display: flex;
     flex-wrap: wrap;
     height: 800px;
-    width: 1700px;
+    width: 1800px;
     // min-height: 800px;
     // min-width: 1800px;
 }
@@ -30,7 +30,7 @@ html {
     margin-left: 3vw;
     margin-right: 3vw;
     margin-top: 5vh;
-    &__handle {
+    &__draggable {
         position: absolute;
         border-radius: 50%;
         aspect-ratio: 1;
@@ -53,6 +53,7 @@ html {
     // min-height: 600px;
     background-color: whitesmoke;
     overflow: hidden;
+    // transition: .05s;
     &__action-threshold {
         position: absolute;
         bottom: 10%;
@@ -110,6 +111,7 @@ html {
         // line-height: 4.5rem;
     // border: solid 1px #333;
     transform: translateY(-100px);
+    transition: .1s;
     &__text {
     // line-height: 10px;
     }
@@ -194,13 +196,13 @@ html {
 }
 
 .hit-map {
-    display: none;
-    position: fixed;
+    display: flex;
+    position: absolute;
     // background-color: rgba(100, 100, 100, 0.4);
     width: 700px;
     height: 260px;
-    left: 25.5%;
-    top: 10%;
+    left: 25%;
+    top: 6%;
     &__keyboard {
         display: flex;
         flex-wrap: wrap;

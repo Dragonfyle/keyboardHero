@@ -12,6 +12,7 @@ export default class Letter {
   #borders;
   #TRACKING_INTERVAL;
   #INITIAL_OFFSET;
+  #isAlreadyHit;
   constructor(idCount) {
     this.id = idCount;
     this.#alphabetLetter;
@@ -20,6 +21,7 @@ export default class Letter {
     this.#INITIAL_OFFSET = -50;
     this.letterCurrentPosition;
     this.#TRACKING_INTERVAL = 20;
+    this.#isAlreadyHit = false;
 
     this.#gameBoard = document.querySelector('.game-board');
     this.#actionThreshold = document.querySelector(
@@ -121,11 +123,15 @@ export default class Letter {
     this.div = div;
   }
 
-  #letterWithinActionRange() {
+  #processIsExpected() {
     GameStatus.addToExpected(this);
   }
 
-  #letterMissed() {
+  #processMiss() {
+    if (this.#isAlreadyHit) {
+      return;
+    }
+
     vfx.missFeedback(this.#gameBoard);
     GameStatus.removeFromExpected(this.id);
 
@@ -159,9 +165,9 @@ export default class Letter {
 
           if (threshold === this.#actionThreshold) {
             if (reverse) {
-              resolve(this.#letterMissed());
+              resolve(this.#processMiss());
             } else {
-              resolve(this.#letterWithinActionRange());
+              resolve(this.#processIsExpected());
             }
           } else {
             resolve(this.#selfDectruct(this.id));
@@ -201,9 +207,10 @@ export default class Letter {
   #processHit(letterId) {
     if (letterId === this.id) {
       vfx.hitFeedback(this.div);
+      this.#isAlreadyHit = true;
       setTimeout(() => {
         this.#selfDectruct(letterId);
-      }, vfx.flashLength);
+      }, vfx.flashLengths.HIT);
     }
   }
 
