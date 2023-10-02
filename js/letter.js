@@ -127,22 +127,6 @@ export default class Letter {
     GameStatus.addToExpected(this);
   }
 
-  #processMiss() {
-    if (this.#isAlreadyHit) {
-      return;
-    }
-
-    vfx.missFeedback(this.#gameBoard);
-    GameStatus.removeFromExpected(this.id);
-
-    if (!GameStatus.isPresent(this.#keyCode)) {
-      GameStatus.createStatsEntry(this.#keyCode);
-    }
-
-    GameStatus.incorporateNewEntry('miss', this.#keyCode);
-    Organizer.sortStats();
-  }
-
   #reachThreshold(element, threshold, border, reverse = false) {
     let border1;
     let border2;
@@ -170,7 +154,7 @@ export default class Letter {
               resolve(this.#processIsExpected());
             }
           } else {
-            resolve(this.#selfDectruct(this.id));
+            resolve(this.#processBoardBottom(this.id));
           }
         }
       }, this.#TRACKING_INTERVAL);
@@ -206,11 +190,33 @@ export default class Letter {
 
   #processHit(letterId) {
     if (letterId === this.id) {
-      vfx.hitFeedback(this.div);
       this.#isAlreadyHit = true;
+      vfx.hitFeedback(this.div);
       setTimeout(() => {
         this.#selfDectruct(letterId);
       }, vfx.flashLengths.HIT);
+    }
+  }
+
+  #processMiss() {
+    if (this.#isAlreadyHit) {
+      return;
+    }
+
+    vfx.missFeedback(this.#gameBoard);
+    GameStatus.removeFromExpected(this.id);
+
+    if (!GameStatus.isPresent(this.#keyCode)) {
+      GameStatus.createStatsEntry(this.#keyCode);
+    }
+
+    GameStatus.incorporateNewEntry('miss', this.#keyCode);
+    Organizer.sortStats();
+  }
+
+  #processBoardBottom(letterId) {
+    if (!this.#isAlreadyHit) {
+      this.#selfDectruct(letterId);
     }
   }
 

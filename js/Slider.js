@@ -5,7 +5,7 @@ class Slider {
   #isDraggable;
   #sliderRange;
   #sliderDimensions;
-  #draggableOffsetTop;
+  #draggableOffset;
   #KEY_STEP;
   #DRAGGABLE_INIT_POS;
   constructor() {
@@ -26,7 +26,7 @@ class Slider {
 
     this.#isActive = true;
     this.#isDraggable = false;
-    this.#draggableOffsetTop = null;
+    this.#draggableOffset = null;
     this.#KEY_STEP = 5;
     this.#DRAGGABLE_INIT_POS = 300;
 
@@ -49,7 +49,7 @@ class Slider {
 
   #setInitialPosition() {
     this.#draggable.style.top = `${this.#DRAGGABLE_INIT_POS}px`;
-    this.#draggableOffsetTop = this.#DRAGGABLE_INIT_POS;
+    this.#draggableOffset = this.#DRAGGABLE_INIT_POS;
   }
 
   #PressMouseBtn(e) {
@@ -92,7 +92,7 @@ class Slider {
 
   #moveDraggable(offset) {
     this.#draggable.style.top = `${offset}px`;
-    this.#draggableOffsetTop = offset;
+    this.#draggableOffset = offset;
   }
 
   #reactToDrag(e) {
@@ -106,14 +106,14 @@ class Slider {
     if (this.#isActive) {
       if (e.keyCode === 40) {
         this.#draggable.style.top = `${
-          this.#draggableOffsetTop + this.#KEY_STEP
+          this.#draggableOffset + this.#KEY_STEP
         }px`;
-        this.#draggableOffsetTop = this.#draggableOffsetTop + this.#KEY_STEP;
+        this.#draggableOffset = this.#draggableOffset + this.#KEY_STEP;
       } else if (e.keyCode === 38) {
         this.#draggable.style.top = `${
-          this.#draggableOffsetTop - this.#KEY_STEP
+          this.#draggableOffset - this.#KEY_STEP
         }px`;
-        this.#draggableOffsetTop = this.#draggableOffsetTop - this.#KEY_STEP;
+        this.#draggableOffset = this.#draggableOffset - this.#KEY_STEP;
       }
     }
   }
