@@ -1,12 +1,12 @@
 import Emitter from './Emitter.js';
+import GameConfig from './Config.js';
 // eslint-disable-next-line no-unused-vars
 import UserInput from './Input.js';
 import Calc from './Calc.js';
 import { DataOrganizer } from './Organizer.js';
 import DifficultySlider from './Slider.js';
-import GameConfig from './Config.js';
 import GameStatus from './Status.js';
-import Letter from './letter.js';
+import Letter from './Letter.js';
 
 class Control {
   #letterIdCount = 0;
@@ -30,8 +30,8 @@ class Control {
     DifficultySlider.reveal(false, 40);
     this.#isRunning = true;
     GameConfig.difficultySet(
-      DifficultySlider.handlePosition,
-      DifficultySlider.handlePositionReversed
+      DifficultySlider.draggablePos,
+      DifficultySlider.draggablePosReversed
     );
     this.#resetStats();
     this.#letterGenerator();
