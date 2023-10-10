@@ -2,10 +2,15 @@ class VisualEffects {
   #flashLengths;
   #colors;
   #missLineWidth;
+  #GAME_BOARD;
+  #DEFAULT_BORDER;
   constructor() {
+    this.#GAME_BOARD = document.querySelector('.game-board');
+
+    this.#DEFAULT_BORDER = this.#GAME_BOARD.style.borderBottom;
     this.#flashLengths = {
       HIT: 200,
-      MISS: 50,
+      MISS: 90,
     };
     this.#colors = {
       HIT: '#DECDF5',
@@ -29,7 +34,7 @@ class VisualEffects {
       this.#colors.MISS
     }`;
     setTimeout(() => {
-      boardGameBorder.style.borderBottom = 'none';
+      boardGameBorder.style.borderBottom = this.#DEFAULT_BORDER;
     }, this.#flashLengths.MISS);
   }
 }
