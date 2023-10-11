@@ -6,35 +6,38 @@ class VisualEffects {
   #DEFAULT_BORDER;
   constructor() {
     this.#GAME_BOARD = document.querySelector('.game-board');
+    this.#DEFAULT_BORDER = '2px solid rgb(18, 255, 142)';
 
-    this.#DEFAULT_BORDER = this.#GAME_BOARD.style.borderBottom;
     this.#flashLengths = {
       HIT: 200,
       MISS: 90,
     };
     this.#colors = {
-      HIT: '#DECDF5',
-      MISS: '#E5446D',
+      HIT: 'rgb(30, 30, 30)',
+      MISS: 'rbg(229, 68, 109)',
     };
     this.#missLineWidth = '4px';
   }
+
   get flashLengths() {
     return this.#flashLengths;
   }
 
   hitFeedback(domLetter) {
     domLetter.style.backgroundColor = this.#colors.HIT;
+    domLetter.style.border = this.#DEFAULT_BORDER;
     setTimeout(() => {
       domLetter.style.backgroundColor = 'transparent';
+      domLetter.style.border = 'none';
     }, this.#flashLengths.HIT);
   }
 
-  missFeedback(boardGameBorder) {
-    boardGameBorder.style.borderBottom = `${this.#missLineWidth} solid ${
+  missFeedback() {
+    this.#GAME_BOARD.style.borderBottom = `${this.#missLineWidth} solid ${
       this.#colors.MISS
     }`;
     setTimeout(() => {
-      boardGameBorder.style.borderBottom = this.#DEFAULT_BORDER;
+      this.#GAME_BOARD.style.borderBottom = this.#DEFAULT_BORDER;
     }, this.#flashLengths.MISS);
   }
 }
