@@ -220,35 +220,35 @@ body {
     &__row {
         display: grid;
         grid-template-columns: repeat(10, 1fr);
-        gap: 1%;
+        gap: 1.5%;
         justify-items: center;
         align-items: center;
         width: 100%;
-        height: 33%;
+        height: 32%;
     }
     &__row--2 {
        display: grid;
        grid-template-columns: repeat(9, 1fr);
-       gap: 1%;
+       gap: 1.5%;
        justify-items: center;
        align-items: center;   
        width: 90%;
-       height: 33%;
+       height: 32%;
        margin-left: 4%;
     }
     &__row--3 {
        display: grid;
        grid-template-columns: repeat(7, 1fr);
-       gap: 1%;
+       gap: 1.5%;
        justify-items: center;
        align-items: center;   
        width: 70%;
-       height: 33%;
+       height: 32%;
        margin-left: 8%;
     }
     
     &__key {
-        width: 85%;
+        width: 80%;
         aspect-ratio: 1;
         border: 3px solid $green;
     }
