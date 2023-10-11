@@ -203,7 +203,7 @@ export default class Letter {
       return;
     }
 
-    vfx.missFeedback(this.#gameBoard);
+    vfx.missFeedback();
     GameStatus.removeFromExpected(this.id);
 
     if (!GameStatus.isPresent(this.#keyCode)) {

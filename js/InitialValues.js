@@ -1,6 +1,6 @@
 class InitValues {
   constructor() {
-    this.GAME_LENGTH = 20;
+    this.GAME_LENGTH = 15;
 
     this.statNames = {
       HIT: 'hit',
@@ -42,10 +42,10 @@ class InitValues {
     this.KEY_COLOR = 'rgba(180, 180, 180)';
 
     this.COLOR_MAP = {
-      TOP1: '#0CCE6B',
-      TOP2: '#566E3D',
-      TOP3: '#6C4B51',
-      TOP4: '#EF2D56',
+      TOP1: 'rgb(18, 255, 143)',
+      TOP2: 'rgb(200, 220, 164)',
+      TOP3: 'rgb(255, 200, 164)',
+      TOP4: 'rgb(255, 130, 130)',
     };
   }
 }

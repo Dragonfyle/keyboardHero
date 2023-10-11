@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,12 +15,6 @@
             <div class="difficulty-slider__draggable"></div>
         </div>
         <div class="game-board">
-            <div class="game-board__action-threshold">
-                <div class="game-board__action-line"></div>
-            </div>
-            <div class="game-board__start-message" data-name="startMsgContainer">
-                <p>press space to start</p>
-            </div>
             <section class="hit-map" data-name="hitMap">
                 <div class="hit-map__keyboard">
                     <div class="hit-map__row">
@@ -54,10 +51,15 @@
                     </div>
                 </div>
             </section>
+            <div class="game-board__action-threshold">
+                <div class="game-board__action-line"></div>
+            </div>
+            <div class="game-board__start-message" data-name="startMsgContainer">
+                <p>press space to start</p>
+            </div>
         </div>
         <section class="stats--vertical">
         </section>
-    </div>
         <section class="stats">
             <div class="stats__time-left">
                 <p class="stats__time-left-value">0 : 00</p>
@@ -72,6 +74,7 @@
                 <p class="stats__accuracy-value">accuracy : ---</p>
             </div>
         </section>
+    </div>
     <script src="js/Renderer.js" type="module"></script>
 </body>
 </html>
