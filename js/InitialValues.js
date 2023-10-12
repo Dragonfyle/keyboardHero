@@ -39,6 +39,8 @@ class InitValues {
       },
     };
 
+    this.DESTRUCTION_DELAY = 2000;
+
     this.KEY_COLOR = 'rgba(180, 180, 180)';
 
     this.COLOR_MAP = {

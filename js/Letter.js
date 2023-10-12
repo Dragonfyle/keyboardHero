@@ -80,14 +80,6 @@ export default class Letter {
     this.#assignAlphabetLetter();
   }
 
-  #createElement(element) {
-    return document.createElement(element);
-  }
-
-  #createTextNode(text) {
-    return document.createTextNode(text);
-  }
-
   #appendChild(parentSelector, element) {
     parentSelector.appendChild(element);
   }
@@ -109,13 +101,13 @@ export default class Letter {
   }
 
   #createAndAddDomElements() {
-    const div = this.#createElement('div');
+    const div = document.createElement('div');
     const p = document.createElement('p');
     this.#assignIdToElement(div);
     this.#assignClass(div);
     p.classList.add('letter__text');
     this.#setInitialOffset(this.#INITIAL_OFFSET);
-    const text = this.#createTextNode(this.#alphabetLetter);
+    const text = document.createTextNode(this.#alphabetLetter);
     this.#appendChild(p, text);
     this.#appendChild(div, p);
     this.#appendChild(this.#gameBoard, div);
@@ -194,7 +186,7 @@ export default class Letter {
       vfx.hitFeedback(this.div);
       setTimeout(() => {
         this.#selfDectruct(letterId);
-      }, vfx.flashLengths.HIT);
+      }, GameConfig.DESTRUCTION_DELAY);
     }
   }
 

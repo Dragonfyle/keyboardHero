@@ -23,13 +23,19 @@ class VisualEffects {
     return this.#flashLengths;
   }
 
+  #fadeOut(domLetter) {
+    domLetter.classList.add('transition');
+    console.log(domLetter.classList);
+  }
+
   hitFeedback(domLetter) {
     domLetter.style.backgroundColor = this.#colors.HIT;
     domLetter.style.border = this.#DEFAULT_BORDER;
-    setTimeout(() => {
-      domLetter.style.backgroundColor = 'transparent';
-      domLetter.style.border = 'none';
-    }, this.#flashLengths.HIT);
+    this.#fadeOut(domLetter);
+    // setTimeout(() => {
+    // domLetter.style.backgroundColor = 'transparent';
+    // domLetter.style.border = 'none';
+    // }, this.#flashLengths.HIT);
   }
 
   missFeedback() {

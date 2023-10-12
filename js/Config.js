@@ -27,6 +27,10 @@ class Config {
     return this.#InitialValues.GAME_LENGTH;
   }
 
+  get DESTRUCTION_DELAY() {
+    return this.#InitialValues.DESTRUCTION_DELAY;
+  }
+
   #assignDelay(draggablePosition, delayConfig, delayParameter) {
     const parameter = delayConfig[delayParameter];
 
