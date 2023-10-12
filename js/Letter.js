@@ -181,7 +181,7 @@ export default class Letter {
   }
 
   #processHit(letterId) {
-    if (letterId === this.id) {
+    if (letterId === this.id && !this.#isAlreadyHit) {
       this.#isAlreadyHit = true;
       vfx.hitFeedback(this.div);
       setTimeout(() => {

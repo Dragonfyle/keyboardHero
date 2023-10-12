@@ -25,7 +25,6 @@ class VisualEffects {
 
   #fadeOut(domLetter) {
     domLetter.classList.add('transition');
-    console.log(domLetter.classList);
   }
 
   hitFeedback(domLetter) {

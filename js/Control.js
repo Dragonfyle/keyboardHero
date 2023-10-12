@@ -1,3 +1,4 @@
+import BackgroundPlayer from './AudioPlayer.js';
 import Emitter from './Emitter.js';
 import GameConfig from './Config.js';
 // eslint-disable-next-line no-unused-vars
@@ -11,12 +12,13 @@ import Letter from './Letter.js';
 class Control {
   #letterIdCount = 0;
   #isRunning = false;
+  #isPaused = false;
   #coundownInterval;
   constructor() {
     window.addEventListener('keydown', (e) => {
       this.#gameStart(e);
     });
-    window.addEventListener('gameEnd', () => this.wrapUp());
+    window.addEventListener('gameend', () => this.wrapUp());
   }
 
   get isRunning() {
@@ -36,6 +38,7 @@ class Control {
     this.#resetStats();
     this.#letterGenerator();
     this.#countdownAndReset();
+    BackgroundPlayer.backgroundSong.play();
   }
 
   #updateIdCount() {
@@ -67,7 +70,14 @@ class Control {
 
     this.#coundownInterval = setInterval(() => {
       if (document.hasFocus()) {
+        if (this.#isPaused) {
+          Emitter.gameResume();
+          this.#isPaused = false;
+        }
         GameStatus.updateTimeLeft();
+      } else {
+        Emitter.gamePause();
+        this.#isPaused = true;
       }
       if (GameStatus.timeLeft <= 0) {
         clearInterval(this.#coundownInterval);
@@ -85,6 +95,7 @@ class Control {
     DifficultySlider.reveal(true, 100);
     DataOrganizer.divideIntoColorGroups(GameStatus.sortedStats);
     Emitter.statsReady();
+    Emitter.gameWrapedUp();
   }
 
   #letterGenerator() {

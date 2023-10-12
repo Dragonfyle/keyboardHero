@@ -8,15 +8,27 @@ export default class Emitter {
   }
 
   static gameStart() {
-    dispatchEvent(new Event('gameStart'));
+    dispatchEvent(new Event('gamestart'));
   }
 
   static gameEnd() {
-    dispatchEvent(new Event('gameEnd'));
+    dispatchEvent(new Event('gameend'));
+  }
+
+  static gamePause() {
+    dispatchEvent(new CustomEvent('gamepause'));
+  }
+
+  static gameWrapedUp() {
+    dispatchEvent(new CustomEvent('wrapup'));
+  }
+
+  static gameResume() {
+    dispatchEvent(new CustomEvent('gameresume'));
   }
 
   static statsReady() {
-    dispatchEvent(new CustomEvent('statsReady'));
+    dispatchEvent(new CustomEvent('statsready'));
   }
 }
 

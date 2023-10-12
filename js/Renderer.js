@@ -43,8 +43,8 @@ class Renderer {
 
     this.#displayStartMessage();
     this.#addTransparentDiv();
-    window.addEventListener('gameStart', () => this.#init());
-    window.addEventListener('statsReady', () => this.#renderHitMap());
+    window.addEventListener('gamestart', () => this.#init());
+    window.addEventListener('statsready', () => this.#renderHitMap());
   }
 
   #addTransparentDiv() {
@@ -163,7 +163,6 @@ class Renderer {
 
   #renderHitMap() {
     const colorMap = DataOrganizer.colorMap;
-
     this.#keys.forEach((key) => {
       const colorGroup = Object.values(colorMap).find(({ keyCodes }) =>
         keyCodes.includes(key.dataset.keycode)
