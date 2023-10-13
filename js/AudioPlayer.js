@@ -24,14 +24,9 @@ class Player {
   }
 
   #ShowDlProgress() {
-    this.#backgroundSong.onprogress = (e) => {
-      if (e.total > 0) {
-        console.log(e);
-        const loaded = e.loaded;
-        const total = e.total;
-        const percent = (loaded / total) * 100;
-        this.#dlProgress.value = percent;
-      }
+    this.#backgroundSong.oncanplaythrough = (e) => {
+      console.log(e);
+      this.#dlProgress.value = 100;
     };
   }
 }
