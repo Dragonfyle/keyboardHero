@@ -15,7 +15,8 @@
             <div class="difficulty-slider__draggable"></div>
         </div>
         <div class="game-board">
-            <section class="hit-map" data-name="hitMap">
+            <progress class="game-board__download" id="download" max="100" value="0"></progress>
+            <section class="game-board__hit-map hit-map" data-name="hitMap">
                 <div class="hit-map__keyboard">
                     <div class="hit-map__row">
                         <div class="hit-map__key" data-letter="q" data-keyCode="81"></div>
@@ -57,6 +58,7 @@
             <div class="game-board__start-message" data-name="startMsgContainer">
                 <p>press space to start</p>
             </div>
+            <div class="game-board__overlay"></div>
         </div>
         <section class="stats--vertical">
         </section>

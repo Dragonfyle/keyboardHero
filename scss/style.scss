@@ -89,6 +89,23 @@ body {
         font-size: 5rem;
         color: whitesmoke;
     }
+    &__download {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 50px;
+        width: 300px;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+    }
+    &__overlay {
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 90%);
+    }
 }
 
 .stats {

@@ -6,6 +6,7 @@ import GameStatus from './Status.js';
 import GameControl from './Control.js';
 
 class Renderer {
+  #gameBoardOverlay;
   #startMsgContainer;
   #hitDisplay;
   #miss_display;
@@ -17,7 +18,9 @@ class Renderer {
   #rendererLoop;
   #displayOptions;
   #statNames;
+  #divOver;
   constructor() {
+    this.#gameBoardOverlay = document.querySelector('.game-board__overlay');
     this.#startMsgContainer = document.querySelector(
       '.game-board__start-message'
     );
@@ -28,7 +31,6 @@ class Renderer {
     this.#statsVertical = document.querySelector('.stats--vertical');
     this.#keyMap = document.querySelector('.hit-map');
     this.#keys = document.querySelectorAll('[data-letter]');
-
     this.#displayOptions = {
       BLOCK: 'block',
       FLEX: 'flex',
@@ -41,9 +43,23 @@ class Renderer {
       ACCURACY: 'accuracy',
     };
 
+    this.#displayDivOver();
+    window.addEventListener('audioready', () => this.#init());
+  }
+
+  #displayDivOver() {
+    this.#gameBoardOverlay.style.display = 'block';
+  }
+
+  #removeDivOver() {
+    this.#gameBoardOverlay.style.display = 'none';
+  }
+
+  #init() {
+    this.#removeDivOver();
     this.#displayStartMessage();
     this.#addTransparentDiv();
-    window.addEventListener('gamestart', () => this.#init());
+    window.addEventListener('gamestart', () => this.#startGame());
     window.addEventListener('statsready', () => this.#renderHitMap());
   }
 
@@ -108,14 +124,14 @@ class Renderer {
     element.textContent = formattedStat;
   }
 
-  #resetData() {
+  #resetColors() {
     this.#resetKeyColors();
     DataOrganizer.resetColorGroups();
   }
 
-  #init() {
+  #startGame() {
     this.#setDisplay(this.#keyMap, this.#displayOptions.NONE);
-    this.#resetData();
+    this.#resetColors();
     this.#removeStartMessage();
     this.#rendererLoop = window.requestAnimationFrame(
       this.#renderImage.bind(this)
