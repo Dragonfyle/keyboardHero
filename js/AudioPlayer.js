@@ -1,3 +1,5 @@
+import Emitter from './Emitter.js';
+
 class Player {
   #BCG_SONG;
   #DL_PROGRESS;
@@ -27,14 +29,21 @@ class Player {
   #ShowDlProgress() {
     const MULTIPLIER = 100;
     const REFRESH_FREQ = 50;
+    const DELAY_AFTER_FINISHED = 300;
 
     const notActualDl = setInterval(() => {
       this.#DL_PROGRESS.value +=
         (this.#DL_PROGRESS.max - this.#DL_PROGRESS.value) / MULTIPLIER;
     }, REFRESH_FREQ);
+
     this.#BCG_SONG.oncanplaythrough = () => {
       this.#DL_PROGRESS.value = 100;
       clearInterval(notActualDl);
+
+      setTimeout(() => {
+        this.#DL_PROGRESS.style.display = 'none';
+        Emitter.audioReady();
+      }, DELAY_AFTER_FINISHED);
     };
   }
 }

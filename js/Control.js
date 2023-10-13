@@ -15,14 +15,18 @@ class Control {
   #isPaused = false;
   #coundownInterval;
   constructor() {
-    window.addEventListener('keydown', (e) => {
-      this.#gameStart(e);
-    });
-    window.addEventListener('gameend', () => this.wrapUp());
+    window.addEventListener('audioready', () => this.#initializeEvents());
   }
 
   get isRunning() {
     return this.#isRunning;
+  }
+
+  #initializeEvents() {
+    window.addEventListener('keydown', (e) => {
+      this.#gameStart(e);
+    });
+    window.addEventListener('gameend', () => this.wrapUp());
   }
 
   #gameStart(e) {

@@ -6,6 +6,7 @@ import GameStatus from './Status.js';
 import GameControl from './Control.js';
 
 class Renderer {
+  #gameBoardOverlay;
   #startMsgContainer;
   #hitDisplay;
   #miss_display;
@@ -17,7 +18,9 @@ class Renderer {
   #rendererLoop;
   #displayOptions;
   #statNames;
+  #divOver;
   constructor() {
+    this.#gameBoardOverlay = document.querySelector('.game-board__overlay');
     this.#startMsgContainer = document.querySelector(
       '.game-board__start-message'
     );
@@ -40,10 +43,20 @@ class Renderer {
       ACCURACY: 'accuracy',
     };
 
-    this.#init();
+    this.#displayDivOver();
+    window.addEventListener('audioready', () => this.#init());
+  }
+
+  #displayDivOver() {
+    this.#gameBoardOverlay.style.display = 'block';
+  }
+
+  #removeDivOver() {
+    this.#gameBoardOverlay.style.display = 'none';
   }
 
   #init() {
+    this.#removeDivOver();
     this.#displayStartMessage();
     this.#addTransparentDiv();
     window.addEventListener('gamestart', () => this.#startGame());

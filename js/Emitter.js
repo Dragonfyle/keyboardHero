@@ -30,8 +30,8 @@ export default class Emitter {
   static statsReady() {
     dispatchEvent(new CustomEvent('statsready'));
   }
+
+  static audioReady() {
+    dispatchEvent(new CustomEvent('audioready'));
+  }
 }
-
-// const EventEmitter = new Emitter();
-
-// export default EventEmitter;
