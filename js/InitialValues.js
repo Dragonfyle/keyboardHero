@@ -1,6 +1,6 @@
 class InitValues {
   constructor() {
-    this.GAME_LENGTH = 55;
+    this.GAME_LENGTH = 75;
 
     this.statNames = {
       HIT: 'hit',
