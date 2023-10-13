@@ -28,7 +28,6 @@ class Renderer {
     this.#statsVertical = document.querySelector('.stats--vertical');
     this.#keyMap = document.querySelector('.hit-map');
     this.#keys = document.querySelectorAll('[data-letter]');
-
     this.#displayOptions = {
       BLOCK: 'block',
       FLEX: 'flex',
@@ -41,9 +40,13 @@ class Renderer {
       ACCURACY: 'accuracy',
     };
 
+    this.#init();
+  }
+
+  #init() {
     this.#displayStartMessage();
     this.#addTransparentDiv();
-    window.addEventListener('gamestart', () => this.#init());
+    window.addEventListener('gamestart', () => this.#startGame());
     window.addEventListener('statsready', () => this.#renderHitMap());
   }
 
@@ -108,14 +111,14 @@ class Renderer {
     element.textContent = formattedStat;
   }
 
-  #resetData() {
+  #resetColors() {
     this.#resetKeyColors();
     DataOrganizer.resetColorGroups();
   }
 
-  #init() {
+  #startGame() {
     this.#setDisplay(this.#keyMap, this.#displayOptions.NONE);
-    this.#resetData();
+    this.#resetColors();
     this.#removeStartMessage();
     this.#rendererLoop = window.requestAnimationFrame(
       this.#renderImage.bind(this)
