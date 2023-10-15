@@ -19,6 +19,7 @@ class Renderer {
   #displayOptions;
   #statNames;
   #divOver;
+  #previousTime;
   constructor() {
     this.#gameBoardOverlay = document.querySelector('.game-board__overlay');
     this.#startMsgContainer = document.querySelector(
@@ -42,6 +43,8 @@ class Renderer {
       MISS: 'miss',
       ACCURACY: 'accuracy',
     };
+
+    this.#previousTime = performance.now();
 
     this.#displayDivOver();
     window.addEventListener('audioready', () => this.#init());
@@ -133,21 +136,30 @@ class Renderer {
     this.#setDisplay(this.#keyMap, this.#displayOptions.NONE);
     this.#resetColors();
     this.#removeStartMessage();
-    this.#rendererLoop = window.requestAnimationFrame(
-      this.#renderImage.bind(this)
+    this.#rendererLoop = window.requestAnimationFrame((time) =>
+      this.#renderImage(time)
     );
   }
 
-  #renderImage() {
-    if (GameControl.isRunning) {
+  #renderImage(time) {
+    const timePassed = time - this.#previousTime;
+    console.log(timePassed);
+    if (!GameControl.isRunning) {
+      this.#stopRenderer();
+      return;
+    }
+    if (timePassed > 15) {
+      this.#previousTime = time;
       this.#renderTimer();
       this.#renderActiveLetters();
       this.#renderStats();
-      this.#rendererLoop = window.requestAnimationFrame(
-        this.#renderImage.bind(this)
+      this.#rendererLoop = window.requestAnimationFrame((time) =>
+        this.#renderImage(time)
       );
     } else {
-      this.#stopRenderer();
+      this.#rendererLoop = window.requestAnimationFrame((time) =>
+        this.#renderImage(time)
+      );
     }
   }
 
