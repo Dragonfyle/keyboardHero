@@ -111,6 +111,7 @@ class Renderer {
   #resetKeyColors() {
     this.#keys.forEach((key) => {
       key.style.backgroundColor = GameConfig.KEY_COLOR;
+      key.style.border = '';
     });
   }
 
@@ -143,7 +144,6 @@ class Renderer {
 
   #renderImage(time) {
     const timePassed = time - this.#previousTime;
-    console.log(timePassed);
     if (!GameControl.isRunning) {
       this.#stopRenderer();
       return;
@@ -196,6 +196,7 @@ class Renderer {
         keyCodes.includes(key.dataset.keycode)
       );
       key.style.backgroundColor = colorGroup?.color;
+      key.style.border = 'none';
     });
 
     this.#setDisplay(this.#keyMap, this.#displayOptions.FLEX);

@@ -1,7 +1,7 @@
 @import 'variables';
 
 
-.transition {
+.fadeOut {
     opacity: 0%;
 }
 
@@ -51,9 +51,18 @@ body {
         top: 300px;
         border: 2px solid $green;
     }
+    &__text {
+        position: relative;
+        left: 40px;
+        color: $green;
+        font-size: 3.5em;
+        transform: rotate(90deg);
+        
+    }
 }
 
 .game-board {
+    box-sizing: border-box;
     position: relative;
     margin-left: 70px;
     margin-right: 30px;
@@ -61,7 +70,7 @@ body {
     text-align: center;
     height: 82%;
     width: 75%;
-    border: 2px solid $green;
+    border: 3px solid $green;
     min-width: 1150px;
     min-height: 580px;
     overflow: hidden;
@@ -224,11 +233,18 @@ body {
 
 .hit-map {
     display: flex;
+    box-sizing: border-box;
     position: absolute;
     width: 90%;
     height: 45%;
     left: 5%;
     top: 9%;
+    &__text {
+        position: absolute;
+        top: -50px;
+        font-size: 3em;
+        color: $green;
+    }
     &__keyboard {
         display: flex;
         flex-wrap: wrap;

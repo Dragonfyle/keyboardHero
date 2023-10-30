@@ -14,9 +14,9 @@ class VisualEffects {
     };
     this.#colors = {
       HIT: 'rgb(30, 30, 30)',
-      MISS: 'rbg(229, 68, 109)',
+      MISS: 'rgb(229, 68, 109)',
     };
-    this.#missLineWidth = '4px';
+    this.#missLineWidth = '3px';
   }
 
   get flashLengths() {
@@ -24,7 +24,7 @@ class VisualEffects {
   }
 
   #fadeOut(domLetter) {
-    domLetter.classList.add('transition');
+    domLetter.classList.add('fadeOut');
   }
 
   hitFeedback(domLetter) {
@@ -41,6 +41,7 @@ class VisualEffects {
     this.#GAME_BOARD.style.borderBottom = `${this.#missLineWidth} solid ${
       this.#colors.MISS
     }`;
+    console.log(this.#GAME_BOARD.style);
     setTimeout(() => {
       this.#GAME_BOARD.style.borderBottom = this.#DEFAULT_BORDER;
     }, this.#flashLengths.MISS);
