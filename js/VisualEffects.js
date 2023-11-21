@@ -10,7 +10,7 @@ class VisualEffects {
 
     this.#flashLengths = {
       HIT: 200,
-      MISS: 90,
+      MISS: 80,
     };
     this.#colors = {
       HIT: 'rgb(30, 30, 30)',
