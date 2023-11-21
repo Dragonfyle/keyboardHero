@@ -31,10 +31,6 @@ class VisualEffects {
     domLetter.style.backgroundColor = this.#colors.HIT;
     domLetter.style.border = this.#DEFAULT_BORDER;
     this.#fadeOut(domLetter);
-    // setTimeout(() => {
-    // domLetter.style.backgroundColor = 'transparent';
-    // domLetter.style.border = 'none';
-    // }, this.#flashLengths.HIT);
   }
 
   missFeedback() {
