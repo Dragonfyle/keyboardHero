@@ -10,7 +10,7 @@ class VisualEffects {
 
     this.#flashLengths = {
       HIT: 200,
-      MISS: 90,
+      MISS: 85,
     };
     this.#colors = {
       HIT: 'rgb(30, 30, 30)',
@@ -31,10 +31,6 @@ class VisualEffects {
     domLetter.style.backgroundColor = this.#colors.HIT;
     domLetter.style.border = this.#DEFAULT_BORDER;
     this.#fadeOut(domLetter);
-    // setTimeout(() => {
-    // domLetter.style.backgroundColor = 'transparent';
-    // domLetter.style.border = 'none';
-    // }, this.#flashLengths.HIT);
   }
 
   missFeedback() {
