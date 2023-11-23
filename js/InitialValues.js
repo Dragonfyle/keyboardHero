@@ -41,13 +41,13 @@ class InitValues {
 
     this.DESTRUCTION_DELAY = 2000;
 
-    this.KEY_COLOR = 'rgba(190, 190, 190)';
+    this.KEY_COLOR = 'rgba(180, 180, 180)';
 
     this.COLOR_MAP = {
-      TOP1: 'rgb(16, 255, 143)',
-      TOP2: 'rgb(198, 220, 164)',
-      TOP3: 'rgb(253, 200, 164)',
-      TOP4: 'rgb(253, 130, 130)',
+      TOP1: 'rgb(18, 255, 143)',
+      TOP2: 'rgb(200, 220, 164)',
+      TOP3: 'rgb(255, 200, 164)',
+      TOP4: 'rgb(255, 130, 130)',
     };
   }
 }
